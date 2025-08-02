@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intelligent Queue Demo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧠 Intelligent Queue Demo</h1>
+            <p>Advanced LLM request queuing with intelligent scoring algorithms</p>
+        </header>
+
+        <div class="demo-grid">
+            <!-- Queue Configuration -->
+            <div class="card">
+                <h2>⚙️ Queue Configuration</h2>
+                <div class="form-group">
+                    <label for="queueType">Queue Type:</label>
+                    <select id="queueType">
+                        <option value="simple">Simple Priority</option>
+                        <option value="throughput">Throughput Optimized</option>
+                        <option value="fair">Fair Queue</option>
+                        <option value="custom">Custom Scoring</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="enablePrefetch">
+                        <input type="checkbox" id="enablePrefetch"> Enable Prefetching
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label for="bufferSize">Buffer Size:</label>
+                    <input type="range" id="bufferSize" min="10" max="200" value="50">
+                    <span id="bufferSizeValue">50</span>
+                </div>
+            </div>
+
+            <!-- Rate Limiter Configuration -->
+            <div class="card">
+                <h2>🚦 Rate Limiter</h2>
+                <div class="form-group">
+                    <label for="rpm">Requests per Minute:</label>
+                    <input type="number" id="rpm" value="60" min="1" max="1000">
+                </div>
+                <div class="form-group">
+                    <label for="tpm">Tokens per Minute:</label>
+                    <input type="number" id="tpm" value="10000" min="100" max="100000">
+                </div>
+                <div class="rate-meter">
+                    <div class="meter">
+                        <div class="meter-bar" id="rpmMeter"></div>
+                        <span>RPM Usage</span>
+                    </div>
+                    <div class="meter">
+                        <div class="meter-bar" id="tpmMeter"></div>
+                        <span>TPM Usage</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Message Input -->
+            <div class="card">
+                <h2>📝 Add Messages</h2>
+                <div class="form-group">
+                    <label for="messageText">Message Text:</label>
+                    <textarea id="messageText" placeholder="Enter your LLM prompt here..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="priority">Priority:</label>
+                    <select id="priority">
+                        <option value="0">🔴 Urgent</option>
+                        <option value="1">🟡 High</option>
+                        <option value="2" selected>🟢 Normal</option>
+                        <option value="3">🔵 Low</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="estimatedTokens">Estimated Tokens:</label>
+                    <input type="number" id="estimatedTokens" value="100" min="1" max="10000">
+                </div>
+                <button id="addMessage" class="btn-primary">Add to Queue</button>
+                <button id="addBatch" class="btn-secondary">Add Batch (5 messages)</button>
+            </div>
+
+            <!-- Queue Visualization -->
+            <div class="card full-width">
+                <h2>📊 Queue Visualization</h2>
+                <div class="queue-controls">
+                    <button id="processNext" class="btn-primary">Process Next Message</button>
+                    <button id="autoProcess" class="btn-secondary">Auto Process</button>
+                    <button id="pauseProcess" class="btn-warning">Pause</button>
+                    <button id="clearQueue" class="btn-danger">Clear Queue</button>
+                </div>
+                
+                <div class="queue-display">
+                    <div class="queue-section">
+                        <h3>📋 Pending Messages</h3>
+                        <div id="pendingMessages" class="message-list"></div>
+                    </div>
+                    
+                    <div class="queue-section">
+                        <h3>⚡ Processing</h3>
+                        <div id="processingMessages" class="message-list"></div>
+                    </div>
+                    
+                    <div class="queue-section">
+                        <h3>✅ Completed</h3>
+                        <div id="completedMessages" class="message-list"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Metrics Dashboard -->
+            <div class="card full-width">
+                <h2>📈 Real-time Metrics</h2>
+                <div class="metrics-grid">
+                    <div class="metric">
+                        <span class="metric-value" id="totalMessages">0</span>
+                        <span class="metric-label">Total Messages</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-value" id="activeRequests">0</span>
+                        <span class="metric-label">Active Requests</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-value" id="throughput">0</span>
+                        <span class="metric-label">Throughput (msg/min)</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-value" id="bufferUtilization">0%</span>
+                        <span class="metric-label">Buffer Utilization</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-value" id="avgWaitTime">0ms</span>
+                        <span class="metric-label">Avg Wait Time</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-value" id="efficiency">0%</span>
+                        <span class="metric-label">Efficiency</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scoring Details -->
+            <div class="card full-width">
+                <h2>🎯 Message Scoring Details</h2>
+                <div id="scoringDetails" class="scoring-display">
+                    <p>Select a message to see its scoring breakdown</p>
+                </div>
+            </div>
+
+            <!-- Log Output -->
+            <div class="card full-width">
+                <h2>📝 System Log</h2>
+                <div class="log-controls">
+                    <button id="clearLog" class="btn-secondary">Clear Log</button>
+                    <label>
+                        <input type="checkbox" id="autoScroll" checked> Auto-scroll
+                    </label>
+                </div>
+                <div id="logOutput" class="log-output"></div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="main.js"></script>
+</body>
+</html>

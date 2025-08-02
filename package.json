@@ -1,0 +1,72 @@
+{
+  "name": "@aid-on/llm-queue-dispatcher",
+  "version": "1.0.0",
+  "description": "高度なスコアリングアルゴリズムを備えたLLMリクエスト用キューディスパッチャー - LLM Queue Dispatcher for LLM requests with advanced scoring algorithms",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "module": "dist/index.mjs",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "README.ja.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "type-check": "tsc --noEmit",
+    "lint": "eslint src --ext .ts",
+    "test": "vitest",
+    "test:coverage": "vitest --coverage",
+    "demo:dev": "vite",
+    "demo:build": "vite build",
+    "demo:preview": "vite preview",
+    "prepublishOnly": "npm run build && npm run type-check"
+  },
+  "keywords": [
+    "llm",
+    "queue",
+    "rate-limit",
+    "intelligent",
+    "scoring",
+    "priority",
+    "typescript"
+  ],
+  "author": "aid-on",
+  "license": "MIT",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aid-on-libs/llm-queue-dispatcher.git"
+  },
+  "homepage": "https://aid-on-libs.github.io/llm-queue-dispatcher/",
+  "bugs": {
+    "url": "https://github.com/aid-on-libs/llm-queue-dispatcher/issues"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@typescript-eslint/eslint-plugin": "^6.19.0",
+    "@typescript-eslint/parser": "^6.19.0",
+    "@vitest/coverage-v8": "^1.2.0",
+    "eslint": "^8.56.0",
+    "tsup": "^8.0.1",
+    "typescript": "^5.3.3",
+    "vite": "^5.4.19",
+    "vitest": "^1.2.0"
+  },
+  "peerDependencies": {
+    "@aid-on/llm-throttle": "^1.0.0"
+  }
+}
