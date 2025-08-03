@@ -23,7 +23,7 @@
     "dev": "tsup --watch",
     "type-check": "tsc --noEmit",
     "lint": "eslint src --ext .ts",
-    "test": "vitest",
+    "test": "vitest run",
     "test:coverage": "vitest --coverage",
     "demo:dev": "vite",
     "demo:build": "vite build",
@@ -49,11 +49,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/aid-on-libs/llm-queue-dispatcher.git"
+    "url": "https://github.com/Aid-On/llm-queue-dispatcher.git"
   },
-  "homepage": "https://aid-on-libs.github.io/llm-queue-dispatcher/",
+  "homepage": "https://Aid-On.github.io/llm-queue-dispatcher/",
   "bugs": {
-    "url": "https://github.com/aid-on-libs/llm-queue-dispatcher/issues"
+    "url": "https://github.com/Aid-On/llm-queue-dispatcher/issues"
   },
   "devDependencies": {
     "@types/node": "^20.11.0",
