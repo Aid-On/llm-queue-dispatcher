@@ -251,4 +251,34 @@ describe('Factory Functions', () => {
       expect(metrics.processing.activeRequests).toBe(0);
     });
   });
+
+  describe('snake_case function exports', () => {
+    it('should provide snake_case alternatives for all camelCase functions', async () => {
+      const { 
+        create_llm_queue_dispatcher,
+        create_in_memory_llm_queue_dispatcher,
+        create_prefetching_llm_queue_dispatcher,
+        create_simple_priority_llm_queue_dispatcher,
+        create_throughput_optimized_llm_queue_dispatcher,
+        create_fair_llm_queue_dispatcher
+      } = await import('../index.js');
+      
+      // Test that snake_case functions exist and work
+      const storage = new InMemoryStorage<LLMRequest>();
+      
+      const queue1 = create_llm_queue_dispatcher(storage);
+      const queue2 = create_in_memory_llm_queue_dispatcher();
+      const queue3 = create_prefetching_llm_queue_dispatcher(storage);
+      const queue4 = create_simple_priority_llm_queue_dispatcher(storage);
+      const queue5 = create_throughput_optimized_llm_queue_dispatcher(storage);
+      const queue6 = create_fair_llm_queue_dispatcher(storage);
+      
+      createdQueues.push(queue1, queue2, queue3, queue4, queue5, queue6);
+      
+      // Basic functionality test
+      await queue2.enqueue(createRequest('test', Priority.NORMAL));
+      const metrics = await queue2.getQueueMetrics();
+      expect(metrics.queue.approximateNumberOfMessages).toBe(1);
+    });
+  });
 });
