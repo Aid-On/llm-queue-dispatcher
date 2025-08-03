@@ -1,5 +1,5 @@
 import type { QueueMessage } from '../types/index.js';
-import { Priority } from '../types/index.js';
+import type { Priority } from '../types/index.js';
 
 interface BufferItem<T> {
   message: QueueMessage<T>;

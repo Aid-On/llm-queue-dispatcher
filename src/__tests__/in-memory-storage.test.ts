@@ -91,9 +91,10 @@ describe('InMemoryStorage', () => {
     it('should delete messages by receipt handle', async () => {
       await storage.enqueue(createRequest('test-1'));
       const messages = await storage.dequeue(1, 30);
-      const receiptHandle = messages[0]?.attributes.receiptHandle!;
+      const receiptHandle = messages[0]?.attributes.receiptHandle;
+      expect(receiptHandle).toBeDefined();
 
-      await storage.deleteMessage(receiptHandle);
+      await storage.deleteMessage(receiptHandle!);
 
       // Message should be gone
       expect(storage.getAllMessages()).toHaveLength(0);
@@ -110,9 +111,10 @@ describe('InMemoryStorage', () => {
     it('should update visibility timeout for in-flight messages', async () => {
       await storage.enqueue(createRequest('test-1'));
       const messages = await storage.dequeue(1, 1); // 1 second
-      const receiptHandle = messages[0]?.attributes.receiptHandle!;
+      const receiptHandle = messages[0]?.attributes.receiptHandle;
+      expect(receiptHandle).toBeDefined();
 
-      await storage.updateVisibilityTimeout(receiptHandle, 60); // Extend to 60 seconds
+      await storage.updateVisibilityTimeout(receiptHandle!, 60); // Extend to 60 seconds
 
       // Message should still be in flight
       const newMessages = await storage.dequeue(1, 30);
