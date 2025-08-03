@@ -1,6 +1,6 @@
 {
   "name": "@aid-on/llm-queue-dispatcher",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "高度なスコアリングアルゴリズムを備えたLLMリクエスト用キューディスパッチャー - LLM Queue Dispatcher for LLM requests with advanced scoring algorithms",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
