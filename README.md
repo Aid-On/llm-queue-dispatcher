@@ -10,7 +10,7 @@
 
 `@aid-on/llm-queue-dispatcher` is a sophisticated queueing system designed specifically for LLM (Large Language Model) request processing. It uses advanced scoring algorithms to intelligently select the most optimal requests for processing based on multiple factors including priority, token efficiency, wait time, and rate limiting constraints.
 
-🚀 **[Try the Interactive Demo](https://aid-on-libs.github.io/llm-queue-dispatcher/)** - Experience the queue in action with real-time visualizations!
+🚀 **[Try the Interactive Demo](https://aid-on.github.io/llm-queue-dispatcher/)** - Experience the queue in action with real-time visualizations!
 
 ## Features
 
