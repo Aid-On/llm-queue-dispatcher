@@ -247,7 +247,7 @@ export class LLMQueueDispatcher<T = LLMPayload> {
             message.attributes.receiptHandle,
             this.visibilityTimeout
           );
-        } catch (error) {
+        } catch {
           this.logger.warn(`Failed to update visibility for message ${message.id}`);
           this.prefetchBuffer.remove(message);
         }
